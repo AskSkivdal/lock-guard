@@ -36,12 +36,14 @@ impl PowerState {
             });
         }
 
-        let trimmed_status = battery_status.trim();
+        let trimmed_status = battery_status.trim().to_lowercase();
+        let trimmed_status = trimmed_status.as_str();
 
         match trimmed_status {
-            "Charging" => PowerState::Charging,
-            "Not Charging" => PowerState::Charging,
-            "Discharging" => PowerState::Discharging,
+            "charging" => PowerState::Charging,
+            "full" => PowerState::Charging,
+            "not charging" => PowerState::Charging,
+            "discharging" => PowerState::Discharging,
             _ => {
                 warn!("Powerstate: {trimmed_status} unknown. Returning Discharging");
                 PowerState::Discharging
